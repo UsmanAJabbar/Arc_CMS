@@ -1,7 +1,6 @@
 from fastapi import FastAPI
-from pony.orm import Database
+from pony.orm import Database, db_session
 from arc.config import config
-
 
 app = FastAPI()
 
@@ -13,4 +12,10 @@ db.bind(
     host=config.db_host,
     database=config.db_database
 )
-db.generate_mapping(create_tables=True)
+
+@app.get('/')
+@db_session
+def hello_world():
+    return {
+        'status': 'OK'
+    }
