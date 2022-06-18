@@ -2,12 +2,11 @@ from pydantic import BaseSettings
 
 
 class Config(BaseSettings):
-    provider: str
-    host: str
-    user: str
-    password: str
-    database: str
-    port: int
+    db_provider: str
+    db_host: str
+    db_user: str
+    db_password: str
+    db_database: str
 
     class Config:
         env_file = '.env'
