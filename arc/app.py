@@ -13,9 +13,10 @@ db.bind(
     database=config.db_database
 )
 
+
 @app.get('/')
 @db_session
-def hello_world():
+def status():
     return {
         'status': 'OK'
     }

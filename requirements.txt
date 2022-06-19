@@ -3,3 +3,4 @@ pony==0.7.16
 pydantic==1.9.1
 uvicorn[standard]==0.17.6
 psycopg2==2.9.3
+cbfa==0.0.1
