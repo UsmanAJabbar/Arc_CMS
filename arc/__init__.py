@@ -1,6 +1,6 @@
 from arc.app import (
     app,
-    db
+    db,
 )
 
 from arc.post.models import Post
