@@ -1,4 +1,4 @@
-from arc.app import (
+from arc.main import (
     app,
     db,
 )
