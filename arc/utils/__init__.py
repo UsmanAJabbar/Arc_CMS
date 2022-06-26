@@ -1,4 +1,4 @@
-from arc import db
+from arc.database import db
 
 
 def row_to_dict(row: db.Entity) -> dict:

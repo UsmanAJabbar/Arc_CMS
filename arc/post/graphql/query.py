@@ -4,6 +4,9 @@ import strawberry
 from pony.orm import db_session, select, desc
 
 from arc.post.graphql.schema import Post
+from arc.post.models import Post as PostModel
+from arc.user.models import User as UserModel
+from arc.utils import row_to_dict
 
 
 @strawberry.type
@@ -15,10 +18,6 @@ class PostQueries:
 
         Raises: ValueError if ID is not found/invalid
         """
-        from arc.post.models import Post as PostModel
-        from arc.user.models import User as UserModel
-        from arc.utils import row_to_dict
-
         try:
             post = select(
                 p for p in PostModel
@@ -33,10 +32,6 @@ class PostQueries:
     @db_session
     def posts(self, limit: int = 3, order: str = 'desc') -> List[Post]:
         """Takes in a @limit and @order parameter and returns a list of posts"""
-        from arc.post.models import Post as PostModel
-        from arc.user.models import User as UserModel
-        from arc.utils import row_to_dict
-
         posts = (
             select(
                 p for p in PostModel
@@ -62,10 +57,6 @@ class PostQueries:
 
         Raises: ValueError if ID is not found/invalid
         """
-        from arc.post.models import Post as PostModel
-        from arc.user.models import User as UserModel
-        from arc.utils import row_to_dict
-
         try:
             post = select(
                 p for p in PostModel
@@ -75,4 +66,3 @@ class PostQueries:
             raise ValueError('Invalid UUID')
 
         return Post(**row_to_dict(post))
-

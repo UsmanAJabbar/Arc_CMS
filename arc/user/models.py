@@ -2,7 +2,7 @@ from uuid import UUID, uuid4
 from pony.orm import PrimaryKey, Required, Set
 from datetime import datetime
 
-from arc import db
+from arc.database import db
 
 
 class User(db.Entity):

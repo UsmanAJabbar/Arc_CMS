@@ -8,7 +8,7 @@ from uuid import uuid4, UUID
 from datetime import datetime
 
 from arc.user.models import User
-from arc import db
+from arc.database import db
 
 
 class Post(db.Entity):
