@@ -1,16 +1,18 @@
-import strawberry
-from pony.orm import db_session, select
-from arc.post.graphql.schema import Post
+from typing import List
 from uuid import UUID
+import strawberry
+from pony.orm import db_session, select, desc
 
+from arc.post.graphql.schema import Post
 
 @strawberry.type
 class Query:
     @strawberry.field
     @db_session
-    def get_post_by_id(self, id: UUID) -> Post:
+    def post_by_id(self, id: UUID) -> Post:
         from arc.post.models import Post as PostModel
         from arc.user.models import User as UserModel
+        from arc.utils import row_to_dict
 
         try:
             post = select(
@@ -20,18 +22,14 @@ class Query:
         except IndexError:
             raise ValueError('Invalid UUID')
 
-        post_details = {
-            c: getattr(post, c)
-            for c in post._columns_
-        }
-
-        return Post(**post_details)
+        return Post(**row_to_dict(post))
 
     @strawberry.field
     @db_session
-    def get_post_by_slug(self, slug: str) -> Post:
+    def post_by_slug(self, slug: str) -> Post:
         from arc.post.models import Post as PostModel
         from arc.user.models import User as UserModel
+        from arc.utils import row_to_dict
 
         try:
             post = select(
@@ -41,12 +39,32 @@ class Query:
         except IndexError:
             raise ValueError('Invalid UUID')
 
-        post_details = {
-            c: getattr(post, c)
-            for c in post._columns_
-        }
+        return Post(**row_to_dict(post))
 
-        return Post(**post_details)
+    @strawberry.field
+    @db_session
+    def n_posts(self, limit: int = 3, order: str = 'desc') -> List[Post]:
+        from arc.post.models import Post as PostModel
+        from arc.user.models import User as UserModel
+        from arc.utils import row_to_dict
+
+        posts = (
+            select(
+                p for p in PostModel
+                if p.status == 1
+            ).prefetch(
+                UserModel
+            ).order_by(
+                desc(PostModel.created) if order == 'desc'
+                else PostModel.created
+            )
+            .limit(limit)
+        )[:]
+
+        return [
+            Post(**row_to_dict(r))
+            for r in posts
+        ]
 
 
 schema = strawberry.Schema(Query)
