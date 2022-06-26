@@ -12,7 +12,6 @@ class User:
     name: str
     username: str
     email: str
-    password: str
 
     active: bool
     role: int
