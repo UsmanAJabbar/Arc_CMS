@@ -1,7 +1,13 @@
 from arc.database import db
 
 
-def row_to_dict(row: db.Entity) -> dict:
+default_exclude_fields = (
+    'password',
+)
+def row_to_dict(
+    row: db.Entity,
+    exclude_fields: tuple = default_exclude_fields
+) -> dict:
     """
     -----------
     ROW TO DICT
@@ -14,4 +20,5 @@ def row_to_dict(row: db.Entity) -> dict:
     return {
         c: getattr(row, c)
         for c in row._columns_
+        if c not in exclude_fields
     }

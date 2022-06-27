@@ -41,9 +41,8 @@ class PostQueries:
             ).order_by(
                 desc(PostModel.created) if order == 'desc'
                 else PostModel.created
-            )
-            .limit(limit)
-        )[:]
+            ).limit(limit)
+        )
 
         return [
             Post(**row_to_dict(r))
@@ -63,6 +62,6 @@ class PostQueries:
                 if p.url == slug
             ).prefetch(UserModel)[:][0]
         except IndexError:
-            raise ValueError('Invalid UUID')
+            raise ValueError('Invalid Slug')
 
         return Post(**row_to_dict(post))
