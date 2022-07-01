@@ -59,7 +59,7 @@ class PostQueries:
         try:
             post = select(
                 p for p in PostModel
-                if p.url == slug
+                if p.slug == slug
             ).prefetch(UserModel)[:][0]
         except IndexError:
             raise ValueError('Invalid Slug')

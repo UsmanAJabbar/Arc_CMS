@@ -15,7 +15,7 @@ class Post(db.Entity):
     id = PrimaryKey(UUID, default=uuid4)
     created = Required(datetime, default=datetime.now)
     updated = Required(datetime, default=datetime.now)
-    url = Required(str, unique=True)
+    slug = Required(str, unique=True)
 
     title = Required(str)
     subtitle = Optional(str)

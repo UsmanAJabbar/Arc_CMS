@@ -10,7 +10,7 @@ class Post:
     id: UUID
     created: datetime
     updated: datetime
-    url: str
+    slug: str
 
     title: str
     subtitle: str
